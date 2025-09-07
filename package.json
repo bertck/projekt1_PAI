@@ -1,0 +1,27 @@
+{
+  "name": "projekt1_pai",
+  "version": "1.0.0",
+  "description": "Projekt studencki zrealizowany w ramach przedmiotu Projektowanie Aplikacji Internetowych. Aplikacja internetowa służy do zarządzania rezerwacjami maszyn rolniczych w spółdzielni – umożliwia przeglądanie dostępnych maszyn, składanie i anulowanie rezerwacji całodniowych, a także administrację użytkownikami i sprzętem.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bertck/projekt1_PAI.git"
+  },
+  "author": "Bartłomiej Liber",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bertck/projekt1_PAI/issues"
+  },
+  "homepage": "https://github.com/bertck/projekt1_PAI#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
+  }
+}
