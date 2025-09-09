@@ -1,0 +1,8 @@
+block content
+    h1 Logowanie
+    form(method="POST" action="/auth/login")
+        label(for="email") E-mail
+        input#email(type="text" name="email" required)
+        label(for="password") Hasło
+        input#password(type="password" name="password" required)
+        button(type="submit") Zaloguj
