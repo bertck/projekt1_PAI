@@ -1,10 +1,18 @@
 import express from 'express';
 import session from 'express-session';
-import path from 'path';
+import sequelize from './db/index.js';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.js';
 
 const PORT = 3000;
 const app = express();
+
+await sequelize.authenticate();
+await sequelize.sync();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(express.urlencoded({ extended: false }))
 
@@ -16,6 +24,7 @@ app.use(session({
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.user;
+    next();
 });
 
 app.set('view engine', 'pug');

@@ -1,5 +1,7 @@
 block content
     h1 Logowanie
+    if error
+        p.error= error
     form(method="POST" action="/auth/login")
         label(for="email") E-mail
         input#email(type="text" name="email" required)
