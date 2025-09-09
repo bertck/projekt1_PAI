@@ -8,7 +8,7 @@ User.init(
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         email: { type: DataTypes.STRING, unique: true, allowNull: false, validate: { isEmail: true } },
         username: { type: DataTypes.STRING, unique: true, allowNull: false },
-        passwordHash: { type: DataTypes.STRING, allowNull: False },
+        passwordHash: { type: DataTypes.STRING, allowNull: false },
         role: { type: DataTypes.ENUM('user', 'admin'), allowNull: false, defaultValue: 'user' },
     },
     { sequelize, modelName: 'User', tableName: 'users' }
