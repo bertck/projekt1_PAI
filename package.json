@@ -2,6 +2,7 @@
   "name": "projekt1_pai",
   "version": "1.0.0",
   "description": "Projekt studencki zrealizowany w ramach przedmiotu Projektowanie Aplikacji Internetowych. Aplikacja internetowa służy do zarządzania rezerwacjami maszyn rolniczych w spółdzielni – umożliwia przeglądanie dostępnych maszyn, składanie i anulowanie rezerwacji całodniowych, a także administrację użytkownikami i sprzętem.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
