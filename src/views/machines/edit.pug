@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        title= title
+    body
+        h1 Edytuj maszynę
+        form(action=`/machines/${machine.id}`, method='post')
+            input(type='hidden', name='_method', value='PUT')
+            div
+                label(for='name') Nazwa
+                input(type='text', name='name', id='name', required, value=machine.name)
+            div
+                label(for='description') Opis
+                textarea(name='description', id='description')= machine.description
+            button(type='submit') Zapisz

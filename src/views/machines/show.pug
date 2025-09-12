@@ -1,0 +1,9 @@
+doctype html
+html
+    head
+        title= title
+    body
+        h1= machine.name
+        p= machine.description
+        if currentUser && currentUser.role === 'admin'
+            a(href=`/machines/${machine.id}/edit`) Edytuj
