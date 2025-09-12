@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import sequelize from './db/index.js';
@@ -5,27 +6,26 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.js';
 import { ensureAuthenticated } from './middlewares/auth.js';
-import seed from './db/seed.js';
+import seedDatabase from './db/seed.js';
 import fs from 'fs';
 
-const PORT = 3000;
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dbPath = join(__dirname, 'db/data/database.sqlite')
-const seed = !fs.existsSync(dbPath);
+const dbPath = process.env.DB_FILE_PATH || join(__dirname, 'db/data/database.sqlite')
+const shouldSeed = !fs.existsSync(dbPath);
 
 await sequelize.authenticate();
 await sequelize.sync();
 
-if (seed) await seed();
+if (shouldSeed) await seedDatabase();
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
 app.use(session({
-    secret: 'placeholder',
+    secret: process.env.SESSION_SECRET || 'placeholder',
     resave: false,
     saveUninitialized: false
 }));
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.set('view engine', 'pug');
-app.set('views', join(__dirname, 'views'))
+app.set('views', join(__dirname, 'views'));
 
 app.use('/auth', authRouter);
 
@@ -45,4 +45,5 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'PAI Projekt 1.', message: 'TEST' });
 });
 
+const PORT = process.env.SERVER_PORT || 3000;
 app.listen(PORT, () => console.log(`Serwer nasłuchuje na http://localhost:${PORT}`));
