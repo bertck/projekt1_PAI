@@ -5,9 +5,11 @@ import sequelize from './db/index.js';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.js';
+import machinesRouter from './routes/machines.js';
 import { ensureAuthenticated } from './middlewares/auth.js';
 import seedDatabase from './db/seed.js';
 import fs from 'fs';
+import loadUser from './middlewares/loadUser.js';
 
 const app = express();
 
@@ -24,23 +26,34 @@ if (shouldSeed) await seedDatabase();
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/auth', authRouter);
+
+app.use((req, res, next) => {
+    // Changing POST to PUT od DELETE, because html forms support only POST
+    if (req.body && req.body._method) {
+        req.method = req.body._method.toUpperCase();
+        delete req.body._method;
+    }
+    next();
+});
+
+app.use((req, res, next) => {
+    if (req.path === '/auth/login') return next();
+    return ensureAuthenticated(req, res, next);
+});
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'placeholder',
     resave: false,
     saveUninitialized: false
 }));
-
-app.use((req, res, next) => {
-    res.locals.currentUser = req.session.user;
-    next();
-});
+app.use(loadUser);
 
 app.set('view engine', 'pug');
 app.set('views', join(__dirname, 'views'));
 
-app.use('/auth', authRouter);
-
 app.use(ensureAuthenticated);
+app.use('/machines', machinesRouter);
 app.get('/', (req, res) => {
     res.render('index', { title: 'PAI Projekt 1.', message: 'TEST' });
 });
