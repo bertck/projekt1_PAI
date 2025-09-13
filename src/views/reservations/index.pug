@@ -1,0 +1,25 @@
+doctype html
+html
+    head
+        title Lista rezerwacji
+    body
+        if machine
+            h1 Rezerwacje dla #{machine.name}
+        else
+            h1 Wszystkie rezerwacje
+        ul
+            each reservation in reservations
+                li
+                    | #{reservation.startDate} - #{reservation.endDate}
+                    if !machine && reservation.Machine
+                        |  (#{reservation.Machine.name})
+                    if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
+                        | 
+                        a(href=`/reservations/${reservation.id}/edit`) Edytuj
+                        form(action=`/reservations/${reservation.id}`, method='post' style='display:inline')
+                            input(type='hidden' name='_method' value='DELETE')
+                            button(type='submit') Usuń
+        if machine
+            a(href=`/reservations/new?machineId=${machine.id}`) Dodaj rezerwację
+        else
+            a(href='/reservations/new') Dodaj rezerwację

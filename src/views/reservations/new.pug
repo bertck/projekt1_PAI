@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        title Nowa rezerwacja
+    body
+        h1 Dodaj rezerwację
+        form(action='/reservations' method='post')
+            div
+                label(for='machineId') Maszyna
+                select(name='machineId' id='machineId', required)
+                    each machine in machines
+                        option(value=machine.id, selected=(machine.id == selectedMachineId))= machine.name
+            div
+                label(for='startDate') Od
+                input(type='date' name='startDate' id='startDate', required)
+            div
+                label(for='endDate') Do
+                input(type='date' name='endDate' id='endDate', required)
+            button(type='submit') Zapisz

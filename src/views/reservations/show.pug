@@ -1,0 +1,11 @@
+doctype html
+html
+    head
+        title Szczegóły rezerwacji
+    body
+        h1 Rezerwacja
+        p Maszyna: #{reservation.Machine.name}
+        p Od: #{reservation.startDate}
+        p Do: #{reservation.endDate}
+        if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
+            a(href=`/reservations/${reservation.id}/edit`) Edytuj

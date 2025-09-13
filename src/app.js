@@ -6,6 +6,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.js';
 import machinesRouter from './routes/machines.js';
+import reservationsRouter from './routes/reservations.js';
 import { ensureAuthenticated } from './middlewares/auth.js';
 import seedDatabase from './db/seed.js';
 import fs from 'fs';
@@ -52,8 +53,8 @@ app.use(loadUser);
 app.set('view engine', 'pug');
 app.set('views', join(__dirname, 'views'));
 
-app.use(ensureAuthenticated);
 app.use('/machines', machinesRouter);
+app.use('/reservations', reservationsRouter);
 app.get('/', (req, res) => {
     res.render('index', { title: 'PAI Projekt 1.', message: 'TEST' });
 });
