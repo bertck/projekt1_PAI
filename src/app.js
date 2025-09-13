@@ -10,7 +10,7 @@ import reservationsRouter from './routes/reservations.js';
 import { ensureAuthenticated } from './middlewares/auth.js';
 import seedDatabase from './db/seed.js';
 import fs from 'fs';
-import loadUser from './middlewares/loadUser.js';
+import { loadUser } from './middlewares/loadUser.js';
 
 const app = express();
 

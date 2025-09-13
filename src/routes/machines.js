@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import Machine from '../models/Machine';
-import { ensureAdmin } from '../middlewares/auth';
+import Machine from '../models/Machine.js';
+import { ensureAdmin } from '../middlewares/auth.js';
 
 const r = Router();
 

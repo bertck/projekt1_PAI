@@ -31,7 +31,7 @@ r.get('/register', (req, res) => {
 r.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, username, passwordHash, 'user' });
+    const user = await User.create({ email, username, passwordHash, role: 'user' });
     req.session.userId = user.id;
     res.redirect('/');
 });

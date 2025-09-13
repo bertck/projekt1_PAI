@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { User } from '../models/index.js';
+import User from '../models/User.js';
 
 export default async function seed() {
     const password = process.env.ADMIN_PASSWORD || 'placeholder';

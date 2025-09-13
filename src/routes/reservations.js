@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import Reservation from '../models/Reservation';
-import Machine from '../models/Machine';
-import { where } from 'sequelize';
+import Reservation from '../models/Reservation.js';
+import Machine from '../models/Machine.js';
 
 const r = Router();
 
