@@ -1,13 +1,15 @@
-doctype html
-html
-    head
-        title= title
-    body
+extends ../layout
+
+block content
+    .machine-details
+        img(src='https://via.placeholder.com/300x200', alt=machine.name)
         h1= machine.name
         p= machine.description
-        p
-            a(href=`/reservations/new?machineId=${machine.id}`) Zarezerwuj
-            | 
-            a(href=`/reservations?machineId=${machine.id}`) Zobacz rezerwacje
+        a.btn(href=`/reservations/new?machineId=${machine.id}`) Zarezerwuj
+        a.btn(href=`/reservations?machineId=${machine.id}`) Zobacz rezerwacje
         if currentUser && currentUser.role === 'admin'
-            a(href=`/machines/${machine.id}/edit`) Edytuj
+            a.btn(href=`/machines/${machine.id}/edit`) Edytuj
+            form(action=`/machines/${machine.id}`, method='post' style='display:inline')
+                input(type='hidden' name='_method' value='DELETE')
+                button.btn(type='submit') Usuń
+        a.btn(href='/machines') Wróć do listy maszyn

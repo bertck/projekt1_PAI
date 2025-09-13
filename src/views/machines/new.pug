@@ -1,14 +1,12 @@
-doctype html
-html
-    head
-        title= title
-    body
+extends ../layout
+
+block content
+    .form-container
         h1 Dodaj maszynę
         form(action='/machines' method='post')
-            div
-                label(for='name') Nazwa
-                input(type='text' name='name' id='name', required)
-            div
-                label(for='description') Opis
-                textarea(name='description' id='description')
-            button(type='submit') Zapisz
+            label(for='name') Nazwa
+            input(type='text' name='name' id='name', required)
+            label(for='description') Opis
+            textarea(name='description' id='description')
+            button.btn(type='submit') Zapisz
+        a.btn(href='/machines') Wróć do listy maszyn

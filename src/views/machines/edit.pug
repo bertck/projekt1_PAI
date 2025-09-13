@@ -1,15 +1,13 @@
-doctype html
-html
-    head
-        title= title
-    body
+extends ../layout
+
+block content
+    .form-container
         h1 Edytuj maszynę
         form(action=`/machines/${machine.id}`, method='post')
-            input(type='hidden', name='_method', value='PUT')
-            div
-                label(for='name') Nazwa
-                input(type='text', name='name', id='name', required, value=machine.name)
-            div
-                label(for='description') Opis
-                textarea(name='description', id='description')= machine.description
-            button(type='submit') Zapisz
+            input(type='hidden' name='_method' value='PUT')
+            label(for='name') Nazwa
+            input(type='text' name='name' id='name', required, value=machine.name)
+            label(for='description') Opis
+            textarea(name='description' id='description')= machine.description
+            button.btn(type='submit') Zapisz
+        a.btn(href='/machines') Wróć do listy maszyn
