@@ -10,6 +10,11 @@ r.get('/', async (req, res) => {
     res.render('machines/index', { machines });
 });
 
+// GET an 'add a new machine' page
+r.get('/new', ensureAdmin, (req, res) => {
+    res.render('machines/new');
+});
+
 // GET data of one particular machine
 r.get('/:id', async (req, res, next) => {
     try {
@@ -19,11 +24,6 @@ r.get('/:id', async (req, res, next) => {
     } catch (error) {
         next(error);
     }    
-});
-
-// GET an 'add a new machine' page
-r.get('/new', ensureAdmin, (req, res) => {
-    res.render('machines/new');
 });
 
 // GET an edit page for one particular machine
