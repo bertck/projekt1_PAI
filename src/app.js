@@ -37,17 +37,18 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'placeholder',
+    resave: false,
+    saveUninitialized: false
+}));
+
 app.use('/auth', authRouter);
 app.use((req, res, next) => {
     if (req.path === '/auth/login') return next();
     return ensureAuthenticated(req, res, next);
 });
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'placeholder',
-    resave: false,
-    saveUninitialized: false
-}));
 app.use(loadUser);
 
 app.set('view engine', 'pug');
