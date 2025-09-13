@@ -12,7 +12,7 @@ export async function loadUser(req, res, next) {
             attributes: ['id', 'email', 'username', 'role']
         });
         if (!user) {
-            req.session.destroy(() => {});
+            req.session.destroy(() => { });
             res.locals.currentUser = null;
             return next();
         }

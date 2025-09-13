@@ -27,8 +27,6 @@ if (shouldSeed) await seedDatabase();
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/auth', authRouter);
-
 app.use((req, res, next) => {
     // Changing POST to PUT od DELETE, because html forms support only POST
     if (req.body && req.body._method) {
@@ -38,6 +36,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/auth', authRouter);
 app.use((req, res, next) => {
     if (req.path === '/auth/login') return next();
     return ensureAuthenticated(req, res, next);

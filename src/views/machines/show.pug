@@ -5,5 +5,9 @@ html
     body
         h1= machine.name
         p= machine.description
+        p
+            a(href=`/reservations/new?machineId=${machine.id}`) Zarezerwuj
+            | 
+            a(href=`/reservations?machineId=${machine.id}`) Zobacz rezerwacje
         if currentUser && currentUser.role === 'admin'
             a(href=`/machines/${machine.id}/edit`) Edytuj

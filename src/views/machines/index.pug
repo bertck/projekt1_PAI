@@ -11,8 +11,8 @@ html
                     if currentUser && currentUser.role === 'admin'
                         | 
                         a(href=`/machines/${machine.id}/edit`) Edytuj
-                        form(action=`/machines/${machine.id}`, method='post', style='display:inline')
-                            input(type='hidden', name='_method', value='DELETE')
+                        form(action=`/machines/${machine.id}`, method='post' style='display:inline')
+                            input(type='hidden' name='_method' value='DELETE')
                             button(type='submit') Usuń
         if currentUser && currentUser.role === 'admin'
             a(href='/machines/new') Dodaj maszynę
