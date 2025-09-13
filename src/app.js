@@ -26,6 +26,7 @@ await sequelize.sync();
 if (shouldSeed) await seedDatabase();
 
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(join(__dirname, 'public')));
 
 app.use((req, res, next) => {
     // Changing POST to PUT od DELETE, because html forms support only POST

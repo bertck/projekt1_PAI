@@ -1,0 +1,21 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title= title || 'Spółdzielnia rolnicza'
+        link(rel='stylesheet' href='/styles.css')
+    body
+        if currentUser
+            nav.navbar
+                .nav-left
+                    a.brand(href='/') Spółdzielnia rolnicza
+                .nav-center
+                    a(href='/') Strona główna
+                    a(href='/machines') Maszyny
+                    a(href='/reservations') Rezerwacje
+                .nav-right
+                    if currentUser.role === 'admin'
+                        span.badge Admin
+                    span.welcome Witaj, #{currentUser.username}
+                    a.logout(href='/auth/logout') Wyloguj się
+        block content

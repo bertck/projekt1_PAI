@@ -1,10 +1,16 @@
+extends layout
+
 block content
-  h1 Rejestracja
-  form(method="POST" action="/auth/register")
-    label(for="email") Adres e-mail
-    input#email(type="text" name="email" required)
-    label(for="username") Nazwa
-    input#username(type="text" name="username" required)
-    label(for="password") Hasło
-    input#password(type="password" name="password" required)
-    button(type="submit") Utwórz konto
+  .form-container
+    h1 Rejestracja
+    form(method='POST' action='/auth/register')
+      label(for='email') Adres e-mail
+      input#email(type='text' name='email', required)
+      label(for='username') Nazwa
+      input#username(type='text' name='username', required)
+      label(for='password') Hasło
+      input#password(type='password' name='password', required)
+      button.btn(type='submit') Utwórz konto
+    p
+      | Masz już konto?
+      a(href='/auth/login') Zaloguj się

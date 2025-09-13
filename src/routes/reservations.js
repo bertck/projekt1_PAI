@@ -15,7 +15,7 @@ r.get('/', async (req, res, next) => {
             machine = await Machine.findByPk(req.query.machineId);
             if (!machine) return res.status(404).send("Nie znaleziono zasobu!");
         }
-        const reservations = await Reservation.findAll({ where, include: Machine });
+        const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
         res.render('reservations/index', { reservations, machine });
     } catch (error) {
         next(error);
@@ -26,7 +26,10 @@ r.get('/', async (req, res, next) => {
 r.get('/new', async (req, res, next) => {
     try {
         const machines = await Machine.findAll();
-        res.render('reservations/new', { machines, selectedMachineId: req.query.machineId });
+        const where = {};
+        if (req.query.machineId) where.machineId = req.query.machineId;
+        const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
+        res.render('reservations/new', { machines, selectedMachineId: req.query.machineId, reservations });
     } catch (error) {
         next(error);
     }
@@ -35,9 +38,9 @@ r.get('/new', async (req, res, next) => {
 // GET one reservation
 r.get('/:id', async (req, res, next) => {
     try {
-        const reservation = Reservation.findByPk(req.params.id);
+        const reservation = await Reservation.findByPk(req.params.id, { include: Machine });
         if (!reservation) return res.status(404).send("Nie znaleziono zasobu!");
-        res.render('reservation/show', { reservation });
+        res.render('reservations/show', { reservation });
     } catch (error) {
         next(error);
     }
