@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Reservation from '../models/Reservation.js';
+import Reservation, { Op } from '../models/Reservation.js';
 import Machine from '../models/Machine.js';
 
 const r = Router();
@@ -67,7 +67,14 @@ r.post('/', async (req, res, next) => {
         const { machineId, startDate, endDate } = req.body;
         const machine = await Machine.findByPk(machineId);
         if (!machine) return res.status(404).send("Nie znaleziono zasobu");
-        // TODO: dodać weryfikację czy nie ma już istniejącej rezerwacji na tę maszynę w danym terminie
+        const conflict = await Reservation.findOne({
+            where: {
+                machineId,
+                startDate: { [Op.lte]: endDate },
+                endDate: { [Op.gte]: startDate }
+            }
+        });
+        if (conflict) return res.status(400).send('Termin jest zajęty!');
         await Reservation.create({ machineId, startDate, endDate, userId: req.session.userId });
         res.redirect(`/reservations?machineId=${machineId}`);
     } catch (error) {
@@ -85,7 +92,15 @@ r.put('/:id', async (req, res, next) => {
             return res.status(403).send('Odmówiono dostępu!');
         }
         const { machineId, startDate, endDate } = req.body;
-        // TODO: dodać weryfikację czy po zmianie machineId, startDate lub endDate nie będzie konfliktu w bazie
+        const conflict = await Reservation.findOne({
+            where: {
+                id: { [Op.ne]: reservation.id },
+                machineId,
+                startDate: { [Op.lte]: endDate },
+                endDate: { [Op.gte]: startDate }
+            }
+        });
+        if (conflict) return res.status(400).send('Termin jest zajęty!');
         await reservation.update({
             machineId,
             startDate,
