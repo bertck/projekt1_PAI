@@ -7,10 +7,19 @@ block content
             p.error= error
         form(method='POST' action='/auth/login')
             label(for='email') E-mail
-            input#email(type='text' name='email', required)
+            input#email(type='email' name='email', required, maxlength='100' pattern='[^@\\s]+@[^@\\s]+\\.[^@\\s]+')
             label(for='password') Hasło
-            input#password(type='password' name='password', required)
+            input#password(type='password' name='password', required, maxlength='100' pattern='.{1,}')
             button.btn(type='submit') Zaloguj
+        script.
+            document.querySelector('form').addEventListener('submit', e => {
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+                    if (!email.checkValidity() || !password.checkValidity()) {
+                        e.preventDefault();
+                        alert('Podaj prawidłowy e-mail i hasło');
+                    }
+            });
         p.form-note
             | Nie masz konta?
             a.nav-link(href='/auth/register') Zarejestruj się

@@ -3,6 +3,7 @@ import Machine from '../models/Machine.js';
 import { ensureAdmin } from '../middlewares/auth.js';
 
 const r = Router();
+const INVALID_DATA_MSG = 'Nieprawidłowe dane wejściowe';
 
 // GET a list of all machines
 r.get('/', async (req, res) => {
@@ -23,7 +24,7 @@ r.get('/:id', async (req, res, next) => {
         res.render('machines/show', { machine, title: machine.name });
     } catch (error) {
         next(error);
-    }    
+    }
 });
 
 // GET an edit page for one particular machine
@@ -40,7 +41,10 @@ r.get('/:id/edit', ensureAdmin, async (req, res, next) => {
 // POST a new machine
 r.post('/', ensureAdmin, async (req, res, next) => {
     try {
-        const { name, description } = req.body;
+        const { name, description = '' } = req.body;
+        if (!name || name.length < 5 || name.length > 20 || description.length > 100) {
+            return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
+        }
         await Machine.create({ name, description });
         res.redirect('/machines');
     } catch (error) {
@@ -51,9 +55,13 @@ r.post('/', ensureAdmin, async (req, res, next) => {
 // PUT - edit existing machine
 r.put('/:id', ensureAdmin, async (req, res, next) => {
     try {
+        const { name, description = '' } = req.body;
+        if (!name || name.length < 5 || name.length > 20 || description.length > 100) {
+            return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
+        }
         const machine = await Machine.findByPk(req.params.id);
         if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
-        await machine.update({ name: req.body.name, description: req.body.description });
+        await machine.update({ name, description });
         res.redirect('/machines');
     } catch (error) {
         next(error);
@@ -68,7 +76,7 @@ r.delete('/:id', ensureAdmin, async (req, res, next) => {
         res.redirect('/machines');
     } catch (error) {
         next(error);
-    } 
+    }
 });
 
 export default r;

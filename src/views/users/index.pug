@@ -9,9 +9,9 @@ block content
                     input(type='hidden' name='_method' value='PUT')
                     label E-mail
                     p.user-email= user.email
-                    label(for=`username-${user.id}`) Nazwa
-                    input(type='text' id=`username-${user.id}` name='username' value=user.username required)
-                    label(for=`role-${user.id}`) Rola
+                    label(for=`username-${user.id}`) Nazwa (3-20 znaków alfanum.)
+                    input(type='text' id=`username-${user.id}` name='username' value=user.username required maxlength='20' pattern='[A-Za-z0-9]{3,20}')
+                    label(for=`role-${user.id}`) Rola (user/admin)
                     select(id=`role-${user.id}` name='role')
                         option(value='user' selected=user.role==='user') użytkownik
                         option(value='admin' selected=user.role==='admin') admin
@@ -24,3 +24,13 @@ block content
                             button.btn.btn-disabled(type='submit' disabled) Usuń
                         else
                             button.btn(type='submit') Usuń
+    script.
+        document.querySelectorAll('.user-card form').forEach(f => {
+            f.addEventListener('submit', e => {
+                const input = f.querySelector('input[name="username"]');
+                    if (input && !input.checkValidity()) {
+                        e.preventDefault();
+                        alert('Nazwa użytkownika musi mieć 3-20 znaków alfanumerycznych');
+                    }
+            });
+        });

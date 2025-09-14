@@ -5,10 +5,19 @@ block content
         h1 Edytuj maszynę
         form(action=`/machines/${machine.id}`, method='post')
             input(type='hidden' name='_method' value='PUT')
-            label(for='name') Nazwa
-            input(type='text' name='name' id='name', required, value=machine.name)
-            label(for='description') Opis
-            textarea(name='description' id='description')= machine.description
+            label(for='name') Nazwa (5-20 znaków)
+            input(type='text' name='name' id='name', required, maxlength='20' pattern='.{5,20}', value=machine.name)
+            label(for='description') Opis (do 100 znaków)
+            textarea(name='description' id='description' maxlength='100')= machine.description
             .button-group
                 button.btn(type='submit') Zapisz
                 a.btn(href='/machines') Wróć do listy maszyn
+        script.
+            document.querySelector('form').addEventListener('submit', e => {
+                const name = document.getElementById('name');
+                const desc = document.getElementById('description');
+                if (!name.checkValidity() || desc.value.length > 100) {
+                    e.preventDefault();
+                    alert('Nazwa musi mieć 5-20 znaków, opis maks. 100 znaków');
+                }
+            });

@@ -5,12 +5,22 @@ block content
     h1 Rejestracja
     form(method='POST' action='/auth/register')
       label(for='email') Adres e-mail
-      input#email(type='text' name='email', required)
+      input#email(type='email' name='email', required, maxlength='100' pattern='[^@\\s]+@[^@\\s]+\\.[^@\\s]+')
       label(for='username') Nazwa
-      input#username(type='text' name='username', required)
+      input#username(type='text' name='username', required, maxlength='20' pattern='[A-Za-z0-9]{3,20}')
       label(for='password') Hasło
-      input#password(type='password' name='password', required)
+      input#password(type='password' name='password', required, maxlength='100' pattern='.{6,}')
       button.btn(type='submit') Utwórz konto
+    script.
+      document.querySelector('form').addEventListener('submit', e => {
+        const email = document.getElementById('email');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+          if (!email.checkValidity() || !username.checkValidity() || !password.checkValidity()) {
+            e.preventDefault();
+            alert('Sprawdź poprawność e-maila, nazwy i hasła');
+          }
+      });
     p.form-note
       | Masz już konto?
       a(href='/auth/login') Zaloguj się

@@ -3,6 +3,8 @@ import User from '../models/User.js';
 import { ensureAdmin } from '../middlewares/auth.js';
 
 const r = Router();
+const USERNAME_REGEX = /^[A-Za-z0-9]{3,20}$/;
+const INVALID_DATA_MSG = 'Nieprawidłowe dane wejściowe';
 
 // GET a list all users
 r.get('/', ensureAdmin, async (req, res, next) => {
@@ -18,6 +20,10 @@ r.get('/', ensureAdmin, async (req, res, next) => {
 // PUT - update user
 r.put('/:id', ensureAdmin, async (req, res, next) => {
     try {
+        const { username, role } = req.body;
+        if (!USERNAME_REGEX.test(username) || !['user', 'admin'].includes(role)) {
+            return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
+        }
         const user = await User.findByPk(req.params.id);
         if (!user) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         await user.update({ username: req.body.username, role: req.body.role });

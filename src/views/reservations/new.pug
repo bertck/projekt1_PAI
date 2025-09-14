@@ -4,15 +4,36 @@ block content
     .form-container
         h1 Dodaj rezerwację
         form(action='/reservations' method='post')
-            label(for='machineId') Maszyna
+            label(for='machineId') Maszyna (wymagane)
             select(name='machineId' id='machineId', required)
                 each machine in machines
                     option(value=machine.id, selected=(machine.id == selectedMachineId))= machine.name
-            label(for='startDate') Od
+            label(for='startDate') Od (max 3 mies. wprzód)
             input(type='date' name='startDate' id='startDate', required)
-            label(for='endDate') Do
+            label(for='endDate') Do (max 3 mies. wprzód)
             input(type='date' name='endDate' id='endDate', required)
             button.btn(type='submit') Zapisz
+        script.
+            const startInput = document.getElementById('startDate');
+            const endInput = document.getElementById('endDate');
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const max = new Date();
+            max.setMonth(max.getMonth() + 3);
+            const todayStr = today.toISOString().split('T')[0];
+            const maxStr = max.toISOString().split('T')[0];
+            startInput.min = todayStr;
+            endInput.min = todayStr;
+            startInput.max = maxStr;
+            endInput.max = maxStr;
+            document.querySelector('form').addEventListener('submit', e => {
+                const s = new Date(startInput.value);
+                const en = new Date(endInput.value);
+                if (s < today || en < today || s > en || s > max || en > max) {
+                    e.preventDefault();
+                    alert('Nieprawidłowe daty: początek przed dziś, początek po końcu lub poza zakresem 3 miesięcy');
+                }
+            });
         a.btn.back-link(href='/reservations') Wróć do listy rezerwacji
     #calendar.calendar
     script.

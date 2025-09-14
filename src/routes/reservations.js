@@ -4,6 +4,7 @@ import Machine from '../models/Machine.js';
 import User from '../models/User.js';
 
 const r = Router();
+const INVALID_DATA_MSG = 'Nieprawidłowe dane wejściowe';
 
 // GET list of reservations, optionally filtered by machine
 r.get('/', async (req, res, next) => {
@@ -66,6 +67,13 @@ r.get('/:id/edit', async (req, res, next) => {
 r.post('/', async (req, res, next) => {
     try {
         const { machineId, startDate, endDate } = req.body;
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const max = new Date();
+        max.setMonth(max.getMonth() + 3);
+        if (!machineId || !startDate || !endDate || start > end || start > max || end > max) {
+            return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
+        }
         const machine = await Machine.findByPk(machineId);
         if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu' });
         const conflict = await Reservation.findOne({
@@ -93,6 +101,13 @@ r.put('/:id', async (req, res, next) => {
             return next({ status: 403, message: 'Odmówiono dostępu!' });
         }
         const { machineId, startDate, endDate } = req.body;
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const max = new Date();
+        max.setMonth(max.getMonth() + 3);
+        if (!machineId || !startDate || !endDate || start > end || start > max || end > max) {
+            return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
+        }
         const conflict = await Reservation.findOne({
             where: {
                 id: { [Op.ne]: reservation.id },

@@ -68,7 +68,6 @@ app.use((req, res) =>
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
-    console.log("Renderuję error");
     res.status(status).render('error', { status, message: err.message });
 });
 
