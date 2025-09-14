@@ -97,27 +97,51 @@ body {
     background: var(--color-accent);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-bottom: var(--spacing);
+}
+
 .machine-list {
     list-style: none;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    gap: var(--spacing);
+    margin-top: var(--spacing);
 }
 
-.machine-list li {
+.machine-card {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin: var(--spacing);
-    width: 200px;
-    text-align: center;
+    width: 220px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.machine-list img {
+.machine-card img {
     width: 100%;
     height: 150px;
     object-fit: cover;
+}
+
+.machine-info {
+    padding: var(--spacing);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+}
+
+.machine-info .btn {
+    align-self: flex-start;
 }
 
 .machine-details img {
@@ -155,6 +179,33 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+#calendar {
+    margin-bottom: var(--spacing);
+}
+
+.reservation-actions {
+    margin-bottom: var(--spacing);
+}
+
+.reservation-group {
+    margin-bottom: var(--spacing);
+}
+
+.reservation-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+}
+
+.reservation-list li {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: calc(var(--spacing) / 2);
 }
 
 .calendar table {

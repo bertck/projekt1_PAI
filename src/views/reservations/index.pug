@@ -6,18 +6,21 @@ block content
     else
         h1 Wszystkie rezerwacje
     #calendar.calendar
-    a.btn(href=machine ? `/reservations/new?machineId=${machine.id}` : '/reservations/new') Utwórz rezerwację
+    .reservation-actions
+        a.btn(href=machine ? `/reservations/new?machineId=${machine.id}` : '/reservations/new') Utwórz rezerwację
     - const grouped = {}
     each r in reservations
         - const mName = r.Machine.name
         - if(!grouped[mName]) grouped[mName] = []
         - grouped[mName].push(r)
-    each list, mName in grouped
-        h2= mName
-        ul
-            each res in list
-                li
-                    a.nav-link(href=`/reservations/${res.id}`)= `${res.startDate} - ${res.endDate}`
+    .reservation-groups
+        each list, mName in grouped
+            .reservation-group
+                h2= mName
+                ul.reservation-list
+                    each res in list
+                        li
+                            a.nav-link(href=`/reservations/${res.id}`)= `${res.startDate} - ${res.endDate}`
     script.
         const reservations = !{JSON.stringify(reservations)};
         const calendar = document.getElementById('calendar');

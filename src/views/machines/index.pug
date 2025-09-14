@@ -5,9 +5,12 @@ block content
         a.btn(href='/machines/new') Utwórz nową
     ul.machine-list
         each machine in machines
-            li
-                a.nav-link(href=`/machines/${machine.id}`)
-                    img(src='https://via.placeholder.com/150', alt=machine.name)
-                    span= machine.name
-                    br
-                a.btn(href=`/machines/${machine.id}/edit`) Edytuj
+            li.machine-card
+                img(src='https://via.placeholder.com/150', alt=machine.name)
+                .machine-info
+                    h3
+                        a.nav-link(href=`/machines/${machine.id}`)= machine.name
+                    if machine.description
+                        p= machine.description
+                    if currentUser && currentUser.role === 'admin'
+                        a.btn(href=`/machines/${machine.id}/edit`) Edytuj

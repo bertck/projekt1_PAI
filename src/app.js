@@ -45,7 +45,7 @@ app.use(session({
 
 app.use('/auth', authRouter);
 app.use((req, res, next) => {
-    if (req.path === '/auth/login') return next();
+    if (['/auth/login', '/auth/register'].includes(req.path)) return next();
     return ensureAuthenticated(req, res, next);
 });
 
@@ -57,7 +57,7 @@ app.set('views', join(__dirname, 'views'));
 app.use('/machines', machinesRouter);
 app.use('/reservations', reservationsRouter);
 app.get('/', (req, res) => {
-    res.render('index', { title: 'PAI Projekt 1.', message: 'TEST' });
+    res.render('index', { title: 'Wypożyczalnia: Strona główna' });
 });
 
 const PORT = process.env.SERVER_PORT || 3000;
