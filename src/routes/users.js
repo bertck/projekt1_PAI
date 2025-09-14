@@ -9,7 +9,7 @@ const INVALID_DATA_MSG = 'Nieprawidłowe dane wejściowe';
 // GET a list all users
 r.get('/', ensureAdmin, async (req, res, next) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({ attributes: ['id', 'email', 'username', 'role'] });
         const adminCount = users.filter(u => u.role === 'admin').length;
         res.render('users/index', { users, title: 'Użytkownicy', adminCount });
     } catch (err) {
