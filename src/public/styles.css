@@ -112,6 +112,7 @@ body {
 .button-group {
     display: flex;
     gap: var(--spacing);
+    margin-bottom: var(--spacing);
 }
 
 .button-group .btn {
@@ -236,6 +237,13 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.reservation-container .machine-info {
+    display: flex;
+    gap: var(--spacing);
+    margin: var(--spacing) 0;
+    flex-direction: row;
 }
 
 #calendar {

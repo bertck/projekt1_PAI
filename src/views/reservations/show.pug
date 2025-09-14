@@ -4,10 +4,20 @@ block content
     .reservation-container
         .info
             h1 Rezerwacja
+            p= reservation.User.username
             p Maszyna:
                 a.nav-link(href=`/machines/${reservation.machineId}`)= reservation.Machine.name
+            .machine-info
+                img(src='https://via.placeholder.com/300x200', alt=reservation.Machine.name)
+                p= reservation.Machine.description
             p Od: #{reservation.startDate}
             p Do: #{reservation.endDate}
+            if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
+                .button-group
+                    a.btn(href=`/reservations/${reservation.id}/edit`) Edytuj
+                    form(action=`/reservations/${reservation.id}`, method='post')
+                        input(type='hidden' name='_method' value='DELETE')
+                        button.btn(type='submit') Usuń
             a.btn(href='/reservations') Wróć do listy rezerwacji
         if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
             .actions

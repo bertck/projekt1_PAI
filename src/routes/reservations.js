@@ -38,7 +38,7 @@ r.get('/new', async (req, res, next) => {
 // GET one reservation
 r.get('/:id', async (req, res, next) => {
     try {
-        const reservation = await Reservation.findByPk(req.params.id, { include: Machine });
+        const reservation = await Reservation.findByPk(req.params.id, { include: [Machine, User] });
         if (!reservation) return res.status(404).send("Nie znaleziono zasobu!");
         res.render('reservations/show', { reservation, title: 'Szczegóły rezerwacji' });
     } catch (error) {
