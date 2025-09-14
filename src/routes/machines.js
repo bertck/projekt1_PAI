@@ -42,7 +42,6 @@ r.post('/', ensureAdmin, async (req, res, next) => {
     try {
         const { name, description } = req.body;
         await Machine.create({ name, description });
-        // TODO: change redirect to something different?
         res.redirect('/machines');
     } catch (error) {
         next(error);
@@ -53,9 +52,8 @@ r.post('/', ensureAdmin, async (req, res, next) => {
 r.put('/:id', ensureAdmin, async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
-        if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         await machine.update({ name: req.body.name, description: req.body.description });
-        // TODO: change redirect to something different?
         res.redirect('/machines');
     } catch (error) {
         next(error);
@@ -66,9 +64,7 @@ r.put('/:id', ensureAdmin, async (req, res, next) => {
 r.delete('/:id', ensureAdmin, async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
-        if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
-        await machine.destroy();
-        // TODO: change redirect to something different?
+        if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         res.redirect('/machines');
     } catch (error) {
         next(error);
