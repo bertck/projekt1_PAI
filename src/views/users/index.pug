@@ -20,4 +20,7 @@ block content
                 form(action=`/users/${user.id}` method='post')
                     input(type='hidden' name='_method' value='DELETE')
                     .actions
-                        button.btn(type='submit') Usuń
+                        if user.role === 'admin' && adminCount === 1
+                            button.btn.btn-disabled(type='submit' disabled) Usuń
+                        else
+                            button.btn(type='submit') Usuń

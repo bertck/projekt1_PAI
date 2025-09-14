@@ -109,6 +109,12 @@ body {
     background: #e74c3c;
 }
 
+.btn-disabled {
+    background: #bbb;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .button-group {
     display: flex;
     gap: var(--spacing);
