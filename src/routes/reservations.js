@@ -70,6 +70,8 @@ r.post('/', async (req, res, next) => {
         const machineId = Number(req.body.machineId);
         const start = new Date(startDate);
         const end = new Date(endDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const max = new Date();
         max.setMonth(max.getMonth() + 3);
         if (
@@ -80,7 +82,9 @@ r.post('/', async (req, res, next) => {
             isNaN(end) ||
             start > end ||
             start > max ||
-            end > max
+            end > max ||
+            start < today ||
+            end < today
         ) {
             return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
         }
@@ -114,6 +118,8 @@ r.put('/:id', async (req, res, next) => {
         const machineId = Number(req.body.machineId);
         const start = new Date(startDate);
         const end = new Date(endDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const max = new Date();
         max.setMonth(max.getMonth() + 3);
         if (
@@ -124,7 +130,9 @@ r.put('/:id', async (req, res, next) => {
             isNaN(end) ||
             start > end ||
             start > max ||
-            end > max
+            end > max ||
+            start < today ||
+            end < today
         ) {
             return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
         }
