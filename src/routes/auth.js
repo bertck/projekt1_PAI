@@ -21,7 +21,7 @@ r.post('/login', async (req, res) => {
 });
 
 r.get('/logout', (req, res) => {
-    req.session.destroy(() => res.redirect('/login'));
+    req.session.destroy(() => res.redirect('/auth/login'));
 });
 
 r.get('/register', (req, res) => {

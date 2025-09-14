@@ -86,10 +86,10 @@ r.put('/:id', async (req, res, next) => {
         }
         const { machineId, startDate, endDate } = req.body;
         // TODO: dodać weryfikację czy po zmianie machineId, startDate lub endDate nie będzie konfliktu w bazie
-        await Reservation.update({
-            machineId: machineId,
-            startDate: startDate,
-            endDate: endDate
+        await reservation.update({
+            machineId,
+            startDate,
+            endDate
         });
         res.redirect(`/reservations/${reservation.id}`);
     } catch (error) {
