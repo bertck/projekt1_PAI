@@ -204,6 +204,7 @@ p {
 .form-container form {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing);
 }
 
 .form-container label {
@@ -215,6 +216,11 @@ p {
 .form-container textarea {
     padding: 8px;
     margin-top: 5px;
+}
+
+.form-container .form-note,
+.form-container .back-link {
+    margin-top: var(--spacing);
 }
 
 .reservation-container {
@@ -268,13 +274,10 @@ p {
     background: #ffe0d3;
 }
 
-.user-list {
-    list-style: none;
-    padding: 0;
+.user-cards {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing);
-    margin-top: var(--spacing);
 }
 
 .user-card {
@@ -283,26 +286,27 @@ p {
     border-radius: 4px;
     padding: var(--spacing);
     width: 250px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+.user-card form {
     display: flex;
     flex-direction: column;
     gap: calc(var(--spacing) / 2);
 }
 
-.user-card input[readonly] {
-    background: #f9f9f9;
-    border: 1px solid #ccc;
+.user-card input,
+.user-card select {
+    font-size: 1.1rem;
+    padding: 6px;
 }
 
-.user-actions {
+.user-card .actions {
     display: flex;
+    flex-direction: column;
     gap: calc(var(--spacing) / 2);
-}
-
-.user-actions form {
-    display: flex;
-    gap: calc(var(--spacing) / 2);
-    align-items: center;
 }
 
 @media (max-width: 600px) {

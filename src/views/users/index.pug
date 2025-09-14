@@ -2,21 +2,22 @@ extends ../layout
 
 block content
     h1 Zarządzanie użytkownikami
-    ul.user-list
+    .user-cards
         each user in users
-            li.user-card
-                label Email
-                input(type='text', value=user.email, readonly)
-                label Nazwa
-                input(type='text', value=user.username, readonly)
-                label Rola
-                input(type='text', value=user.role, readonly)
-                .user-actions
-                    form(action=`/users/${user.id}`, method='post')
-                        input(type='hidden' name='_method' value='PUT')
-                        input(type='text' name='newUsername' placeholder='Nowa nazwa')
-                        input(type='password' name='newPassword' placeholder='Nowe hasło')
-                        button.btn.btn-save(type='submit') Zapisz
-                    form(action=`/users/${user.id}`, method='post')
-                        input(type='hidden' name='_method' value='DELETE')
-                        button.btn.btn-delete(type='submit') Usuń
+            .user-card
+                form(action=`/users/${user.id}` method='post')
+                    input(type='hidden' name='_method' value='PUT')
+                    label E-mail
+                    p.user-email= user.email
+                    label(for=`username-${user.id}`) Nazwa
+                    input(type='text' id=`username-${user.id}` name='username' value=user.username required)
+                    label(for=`role-${user.id}`) Rola
+                    select(id=`role-${user.id}` name='role')
+                        option(value='user' selected=user.role==='user') użytkownik
+                        option(value='admin' selected=user.role==='admin') admin
+                    .actions
+                        button.btn(type='submit') Zapisz
+                form(action=`/users/${user.id}` method='post')
+                    input(type='hidden' name='_method' value='DELETE')
+                    .actions
+                        button.btn(type='submit') Usuń

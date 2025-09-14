@@ -13,7 +13,7 @@ block content
             label(for='endDate') Do
             input(type='date' name='endDate' id='endDate', required)
             button.btn(type='submit') Zapisz
-        a.btn(href='/reservations') Wróć do listy rezerwacji
+        a.btn.back-link(href='/reservations') Wróć do listy rezerwacji
     #calendar.calendar
     script.
         const reservations = !{JSON.stringify(reservations || [])};

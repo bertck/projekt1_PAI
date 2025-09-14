@@ -1,36 +1,25 @@
 import { Router } from 'express';
-import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 import { ensureAdmin } from '../middlewares/auth.js';
 
 const r = Router();
 
-r.use(ensureAdmin);
-
 // GET a list all users
-r.get('/', async (req, res, next) => {
+r.get('/', ensureAdmin, async (req, res, next) => {
     try {
-        const users = await User.findAll({
-            attributes: ['id', 'email', 'username', 'role']
-        });
-        res.render('users/index', {
-            title: 'Wypożyczalnia: Zarządzanie użytkownikami',
-            users
-        });
+        const users = await User.findAll();
+        res.render('users/index', { users, title: 'Użytkownicy' });
     } catch (err) {
         next(err);
     }
 });
 
 // PUT - update user
-r.put('/:id', async (req, res, next) => {
+r.put('/:id', ensureAdmin, async (req, res, next) => {
     try {
-        const { newUsername, newPassword } = req.body;
         const user = await User.findByPk(req.params.id);
-        if (!user) return res.redirect('/users');
-        if (newUsername) user.username = newUsername;
-        if (newPassword) user.passwordHash = await bcrypt.hash(newPassword, 10);
-        await user.save();
+        if (!user) return res.status(404).send('Nie znaleziono zasobu!');
+        await user.update({ username: req.body.username, role: req.body.role });
         res.redirect('/users');
     } catch (err) {
         next(err);
@@ -38,9 +27,11 @@ r.put('/:id', async (req, res, next) => {
 });
 
 // DELETE user
-r.delete('/:id', async (req, res, next) => {
+r.delete('/:id', ensureAdmin, async (req, res, next) => {
     try {
-        await User.destroy({ where: { id: req.params.id } });
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).send('Nie znaleziono zasobu!');
+        await user.destroy();
         res.redirect('/users');
     } catch (err) {
         next(err);
