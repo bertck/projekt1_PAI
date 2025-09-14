@@ -107,6 +107,36 @@ p {
     margin-bottom: var(--spacing);
 }
 
+.hero {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: calc(var(--spacing) * 2) var(--spacing);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.features {
+    list-style: disc;
+    text-align: left;
+    margin: var(--spacing) auto;
+    max-width: 600px;
+    padding-left: calc(var(--spacing) * 2);
+}
+
+.features li {
+    margin-bottom: calc(var(--spacing) / 2);
+}
+
+.cta {
+    margin-top: var(--spacing);
+}
+
+.cta .btn {
+    margin: 0 calc(var(--spacing) / 2);
+}
+
 .machine-list {
     list-style: none;
     padding: 0;

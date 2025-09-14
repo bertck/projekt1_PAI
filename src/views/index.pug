@@ -1,25 +1,25 @@
 extends layout
 
 block content
-    main
+    main.hero
         h1 Wypożyczalnia maszyn rolniczych
         p Witaj na stronie spółdzielni rolników. Aplikacja umożliwia wspólne korzystanie z maszyn takich jak kombajn czy traktory.
         p Harmonogram rezerwacji działa w myśl zasady "kto pierwszy, ten lepszy". Sprzęt można wypożyczać wyłącznie na całe dni i najwyżej trzy miesiące do przodu.
         p System obsługuje:
-        ul
+        ul.features
             li wyświetlanie listy wszystkich maszyn rolniczych
             li przeglądanie rezerwacji dla wskazanej maszyny
             li tworzenie i anulowanie rezerwacji
             li zarządzanie maszynami i kontami użytkowników
         if !currentUser
-            p
-                | Aby rozpocząć, 
-                a(href='/auth/login') zaloguj się
-                |  lub 
-                a(href='/auth/register') załóż konto
+            p.cta
+                | Aby rozpocząć,
+                a.btn(href='/auth/login') Zaloguj się
+                |  lub
+                a.btn(href='/auth/register') Załóż konto
                 | .
         else
-            p
-                | Przejdź do 
-                a(href='/reservations') listy rezerwacji
+            p.cta
+                | Przejdź do
+                a.btn(href='/reservations') listy rezerwacji
                 | , aby zobaczyć swoje wypożyczenia.
