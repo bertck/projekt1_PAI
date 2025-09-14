@@ -14,3 +14,6 @@ block content
                         p= machine.description
                     if currentUser && currentUser.role === 'admin'
                         a.btn(href=`/machines/${machine.id}/edit`) Edytuj
+                        form(action=`/machines/${machine.id}` method='post')
+                            input(type='hidden' name='_method' value='DELETE')
+                            button.btn(type='submit') Usuń
