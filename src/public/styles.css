@@ -112,11 +112,12 @@ body {
 .button-group {
     display: flex;
     gap: var(--spacing);
-    margin-bottom: var(--spacing);
+    flex-wrap: wrap;
+    margin: calc(var(--spacing) * 2) 0 var(--spacing);
 }
 
 .button-group .btn {
-    flex: 1;
+    font-weight: 700;
 }
 
 h1,
@@ -194,6 +195,17 @@ p {
 
 .machine-info .btn {
     align-self: flex-start;
+}
+
+.machine-header {
+    display: flex;
+    gap: var(--spacing);
+}
+
+.machine-desc {
+    background: #fff;
+    padding: var(--spacing);
+    border-radius: 4px;
 }
 
 .machine-details img {

@@ -2,14 +2,18 @@ extends ../layout
 
 block content
     .machine-details
-        img(src='https://via.placeholder.com/300x200', alt=machine.name)
-        h1= machine.name
-        p= machine.description
-        a.btn(href=`/reservations/new?machineId=${machine.id}`) Zarezerwuj
-        a.btn(href=`/reservations?machineId=${machine.id}`) Zobacz rezerwacje
-        if currentUser && currentUser.role === 'admin'
-            a.btn(href=`/machines/${machine.id}/edit`) Edytuj
-            form(action=`/machines/${machine.id}`, method='post' style='display:inline')
-                input(type='hidden' name='_method' value='DELETE')
-                button.btn(type='submit') Usuń
-        a.btn(href='/machines') Wróć do listy maszyn
+        .machine-header
+            img(src='https://via.placeholder.com/300x200', alt=machine.name)
+            .machine-info
+                h1= machine.name
+                .machine-desc
+                    p= machine.description
+        .button-group
+            a.btn.btn-third(href=`/reservations/new?machineId=${machine.id}`) Zarezerwuj
+            a.btn.btn-third(href=`/reservations?machineId=${machine.id}`) Zobacz rezerwacje
+            if currentUser && currentUser.role === 'admin'
+                a.btn(href=`/machines/${machine.id}/edit`) Edytuj
+                form(action=`/machines/${machine.id}`, method='post')
+                    input(type='hidden' name='_method' value='DELETE')
+                    button.btn(type='submit') Usuń
+            a.btn.btn-sixth(href='/machines') Wróć do listy maszyn
