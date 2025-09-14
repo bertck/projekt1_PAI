@@ -47,7 +47,8 @@ r.post('/register', async (req, res) => {
     } catch (err) {
         if (err.name === 'SequelizeUniqueConstraintError') {
             return res.render('register', {
-                title: 'Wypożyczalnia: Zarejestruj się'
+                title: 'Wypożyczalnia: Zarejestruj się',
+                error: 'Podany e-mail lub nazwa są już zajęte'
             });
         }
         throw err;

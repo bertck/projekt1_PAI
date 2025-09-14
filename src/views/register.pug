@@ -3,12 +3,15 @@ extends layout
 block content
   .form-container
     h1 Rejestracja
+    if error
+      p.error= error
     form(method='POST' action='/auth/register')
       label(for='email') Adres e-mail
+      label(for='email') Adres e-mail (do 100 znaków)
       input#email(type='email' name='email', required, maxlength='100' pattern='[^@\\s]+@[^@\\s]+\\.[^@\\s]+')
-      label(for='username') Nazwa
+      label(for='username') Nazwa (3-20 znaków alfanum.)
       input#username(type='text' name='username', required, maxlength='20' pattern='[A-Za-z0-9]{3,20}')
-      label(for='password') Hasło
+      label(for='password') Hasło (6-100 znaków)
       input#password(type='password' name='password', required, maxlength='100' pattern='.{6,}')
       button.btn(type='submit') Utwórz konto
     script.
