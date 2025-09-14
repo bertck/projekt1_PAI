@@ -66,12 +66,22 @@ r.get('/:id/edit', async (req, res, next) => {
 // POST create reservation
 r.post('/', async (req, res, next) => {
     try {
-        const { machineId, startDate, endDate } = req.body;
+        const { startDate, endDate } = req.body;
+        const machineId = Number(req.body.machineId);
         const start = new Date(startDate);
         const end = new Date(endDate);
         const max = new Date();
         max.setMonth(max.getMonth() + 3);
-        if (!machineId || !startDate || !endDate || start > end || start > max || end > max) {
+        if (
+            !Number.isInteger(machineId) ||
+            !startDate ||
+            !endDate ||
+            isNaN(start) ||
+            isNaN(end) ||
+            start > end ||
+            start > max ||
+            end > max
+        ) {
             return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
         }
         const machine = await Machine.findByPk(machineId);
