@@ -1,17 +1,44 @@
 extends ../layout
 
 block content
-    .reservation-container
-        .info
-            h1 Rezerwacja
-            p Maszyna:
-                a(href=`/machines/${reservation.machineId}`)= reservation.Machine.name
-            p Od: #{reservation.startDate}
-            p Do: #{reservation.endDate}
-            a.btn(href='/reservations') Wróć do listy rezerwacji
-        if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
-            .actions
-                a.btn(href=`/reservations/${reservation.id}/edit`) Edytuj
-                form(action=`/reservations/${reservation.id}`, method='post')
-                    input(type='hidden' name='_method' value='DELETE')
-                    button.btn(type='submit') Usuń
+    .form-container
+        h1 Dodaj rezerwację
+        form(action='/reservations' method='post')
+            label(for='machineId') Maszyna
+            select(name='machineId' id='machineId', required)
+                each machine in machines
+                    option(value=machine.id, selected=(machine.id == selectedMachineId))= machine.name
+            label(for='startDate') Od
+            input(type='date' name='startDate' id='startDate', required)
+            label(for='endDate') Do
+            input(type='date' name='endDate' id='endDate', required)
+            button.btn(type='submit') Zapisz
+        a.btn(href='/reservations') Wróć do listy rezerwacji
+    #calendar.calendar
+    script.
+        const reservations = !{JSON.stringify(reservations || [])};
+        const calendar = document.getElementById('calendar');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const first = new Date(year, month, 1);
+        const last = new Date(year, month + 1, 0);
+        const startDay = first.getDay();
+        let html = '<table><tr>';
+        const days = ['Nd','Pn','Wt','Śr','Cz','Pt','So'];
+        for (const d of days) html += `<th>${d}</th>`;
+        html += '</tr><tr>';
+        for (let i=0;i<startDay;i++) html += '<td></td>';
+        const daysInMonth = last.getDate();
+        for (let d=1; d<=daysInMonth; d++) {
+            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const res = reservations.find(r=>r.startDate === dateStr);
+            if(res){
+                html += `<td class="reserved"><a href="/reservations/${res.id}">${d}</a></td>`;
+            } else {
+                html += `<td>${d}</td>`;
+            }
+            if((startDay + d) % 7 ===0) html += '</tr><tr>';
+        }
+        html += '</tr></table>';
+        calendar.innerHTML = html;

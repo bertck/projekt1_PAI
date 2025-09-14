@@ -1,11 +1,17 @@
-doctype html
-html
-    head
-        title Szczegóły rezerwacji
-    body
-        h1 Rezerwacja
-        p Maszyna: #{reservation.Machine.name}
-        p Od: #{reservation.startDate}
-        p Do: #{reservation.endDate}
+extends ../layout
+
+block content
+    .reservation-container
+        .info
+            h1 Rezerwacja
+            p Maszyna:
+                a(href=`/machines/${reservation.machineId}`)= reservation.Machine.name
+            p Od: #{reservation.startDate}
+            p Do: #{reservation.endDate}
+            a.btn(href='/reservations') Wróć do listy rezerwacji
         if currentUser && (currentUser.role === 'admin' || currentUser.id === reservation.userId)
-            a(href=`/reservations/${reservation.id}/edit`) Edytuj
+            .actions
+                a.btn(href=`/reservations/${reservation.id}/edit`) Edytuj
+                form(action=`/reservations/${reservation.id}`, method='post')
+                    input(type='hidden' name='_method' value='DELETE')
+                    button.btn(type='submit') Usuń
