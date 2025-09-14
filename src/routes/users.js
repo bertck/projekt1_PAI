@@ -19,7 +19,7 @@ r.get('/', ensureAdmin, async (req, res, next) => {
 r.put('/:id', ensureAdmin, async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.id);
-        if (!user) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!user) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         await user.update({ username: req.body.username, role: req.body.role });
         res.redirect('/users');
     } catch (err) {
@@ -31,7 +31,7 @@ r.put('/:id', ensureAdmin, async (req, res, next) => {
 r.delete('/:id', ensureAdmin, async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.id);
-        if (!user) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!user) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         if (user.role === 'admin') {
             const adminCount = await User.count({ where: { role: 'admin' } });
             if (adminCount <= 1) {

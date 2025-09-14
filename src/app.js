@@ -62,5 +62,15 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'Wypożyczalnia: Strona główna' });
 });
 
+app.use((req, res) =>
+    res.status(404).render('error', { status: 404, message: 'Nie znaleziono strony' })
+);
+
+app.use((err, req, res, next) => {
+    const status = err.status || 500;
+    console.log("Renderuję error");
+    res.status(status).render('error', { status, message: err.message });
+});
+
 const PORT = process.env.SERVER_PORT || 3000;
 app.listen(PORT, () => console.log(`Serwer nasłuchuje na http://localhost:${PORT}`));

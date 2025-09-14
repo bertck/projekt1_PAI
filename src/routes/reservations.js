@@ -13,7 +13,7 @@ r.get('/', async (req, res, next) => {
         if (req.query.machineId) {
             where.machineId = req.query.machineId;
             machine = await Machine.findByPk(req.query.machineId);
-            if (!machine) return res.status(404).send("Nie znaleziono zasobu!");
+            if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         }
         const reservations = await Reservation.findAll({ where, include: [Machine, User], order: [['startDate', 'ASC']] });
         res.render('reservations/index', { reservations, machine, title: 'Lista rezerwacji' });
@@ -33,13 +33,13 @@ r.get('/new', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
 
 // GET one reservation
 r.get('/:id', async (req, res, next) => {
     try {
         const reservation = await Reservation.findByPk(req.params.id, { include: [Machine, User] });
-        if (!reservation) return res.status(404).send("Nie znaleziono zasobu!");
+        if (!reservation) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         res.render('reservations/show', { reservation, title: 'Szczegóły rezerwacji' });
     } catch (error) {
         next(error);
@@ -50,10 +50,10 @@ r.get('/:id', async (req, res, next) => {
 r.get('/:id/edit', async (req, res, next) => {
     try {
         const reservation = await Reservation.findByPk(req.params.id);
-        if (!reservation) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!reservation) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         const currentUser = res.locals.currentUser;
         if (reservation.userId !== currentUser.id && currentUser.role !== 'admin') {
-            return res.status(403).send("Odmówiono dostępu!");
+            return next({ status: 403, message: 'Odmówiono dostępu!' });
         }
         const machines = await Machine.findAll();
         res.render('reservations/edit', { reservation, machines, title: 'Edytuj rezerwację' });
@@ -67,7 +67,7 @@ r.post('/', async (req, res, next) => {
     try {
         const { machineId, startDate, endDate } = req.body;
         const machine = await Machine.findByPk(machineId);
-        if (!machine) return res.status(404).send("Nie znaleziono zasobu");
+        if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu' });
         const conflict = await Reservation.findOne({
             where: {
                 machineId,
@@ -75,7 +75,7 @@ r.post('/', async (req, res, next) => {
                 endDate: { [Op.gte]: startDate }
             }
         });
-        if (conflict) return res.status(400).send('Termin jest zajęty!');
+        if (conflict) return next({ status: 400, message: 'Termin jest zajęty!' });
         await Reservation.create({ machineId, startDate, endDate, userId: req.session.userId });
         res.redirect(`/reservations?machineId=${machineId}`);
     } catch (error) {
@@ -87,10 +87,10 @@ r.post('/', async (req, res, next) => {
 r.put('/:id', async (req, res, next) => {
     try {
         const reservation = await Reservation.findByPk(req.params.id);
-        if (!reservation) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!reservation) return next({ status: 404, message: 'Nie znaleziono zasobu' });
         const currentUser = res.locals.currentUser;
         if (reservation.userId !== currentUser.id && currentUser.role !== 'admin') {
-            return res.status(403).send('Odmówiono dostępu!');
+            return next({ status: 403, message: 'Odmówiono dostępu!' });
         }
         const { machineId, startDate, endDate } = req.body;
         const conflict = await Reservation.findOne({
@@ -101,7 +101,7 @@ r.put('/:id', async (req, res, next) => {
                 endDate: { [Op.gte]: startDate }
             }
         });
-        if (conflict) return res.status(400).send('Termin jest zajęty!');
+        if (conflict) return next({ status: 400, message: 'Termin jest zajęty!' });
         await reservation.update({
             machineId,
             startDate,
@@ -117,10 +117,10 @@ r.put('/:id', async (req, res, next) => {
 r.delete('/:id', async (req, res, next) => {
     try {
         const reservation = await Reservation.findByPk(req.params.id);
-        if (!reservation) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!reservation) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         const currentUser = res.locals.currentUser;
         if (reservation.userId !== currentUser.id && currentUser.role !== 'admin') {
-            return res.status(403).send('Odmówiono dostępu!');
+            return next({ status: 403, message: 'Odmówiono dostępu!' });
         }
         const machineId = reservation.machineId;
         await reservation.destroy();

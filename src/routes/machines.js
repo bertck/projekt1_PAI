@@ -19,7 +19,7 @@ r.get('/new', ensureAdmin, (req, res) => {
 r.get('/:id', async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
-        if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         res.render('machines/show', { machine, title: machine.name });
     } catch (error) {
         next(error);
@@ -30,7 +30,7 @@ r.get('/:id', async (req, res, next) => {
 r.get('/:id/edit', ensureAdmin, async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
-        if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
+        if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
         res.render('machines/edit', { machine, title: 'Edytuj maszynę' });
     } catch (error) {
         next(error);

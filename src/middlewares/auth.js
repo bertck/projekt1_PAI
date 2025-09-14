@@ -14,5 +14,5 @@ export async function ensureAdmin(req, res, next) {
     } catch (error) {
         return next(error);
     }
-    res.status(403).send('Odmówiono dostępu!');
+    next({ status: 403, message: 'Odmówiono dostępu!' });
 }
