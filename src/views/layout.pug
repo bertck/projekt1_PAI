@@ -8,14 +8,15 @@ html
         if currentUser
             nav.navbar
                 .nav-left
-                    a.brand(href='/') Spółdzielnia rolnicza
+                    a.brand.nav-link(href='/') Spółdzielnia rolnicza
                 .nav-center
-                    a(href='/') Strona główna
-                    a(href='/machines') Maszyny
-                    a(href='/reservations') Rezerwacje
+                    a.nav-link(href='/') Strona główna
+                    a.nav-link(href='/machines') Maszyny
+                    a.nav-link(href='/reservations') Rezerwacje
                 .nav-right
                     if currentUser.role === 'admin'
                         span.badge Admin
                     span.welcome Witaj, #{currentUser.username}
-                    a.logout(href='/auth/logout') Wyloguj się
+                    form(action='/auth/logout' method='get')
+                        button.btn(type='submit') Wyloguj się
         block content

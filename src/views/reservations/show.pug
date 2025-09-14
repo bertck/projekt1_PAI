@@ -5,7 +5,7 @@ block content
         .info
             h1 Rezerwacja
             p Maszyna:
-                a(href=`/machines/${reservation.machineId}`)= reservation.Machine.name
+                a.nav-link(href=`/machines/${reservation.machineId}`)= reservation.Machine.name
             p Od: #{reservation.startDate}
             p Do: #{reservation.endDate}
             a.btn(href='/reservations') Wróć do listy rezerwacji

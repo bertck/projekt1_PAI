@@ -34,7 +34,7 @@ block content
             const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
             const res = reservations.find(r => dateStr >= r.startDate && dateStr <= r.endDate);
             if(res){
-                html += `<td class="reserved"><a href="/reservations/${res.id}">${d}</a></td>`;
+                html += `<td class="reserved"><a class="nav-link" href="/reservations/${res.id}">${d}</a></td>`;
             } else {
                 html += `<td>${d}</td>`;
             }

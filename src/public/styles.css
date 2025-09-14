@@ -1,9 +1,25 @@
-body {
-    font-family: Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --color-primary: #34495e;
+    --color-secondary: #3498db;
+    --color-accent: #e67e22;
+    --color-bg: #f0f2f5;
+    --color-text: #2c3e50;
+    --spacing: 16px;
+}
+
+* {
     margin: 0;
-    background: #f5f5f5;
-    color: #333;
-    padding-top: 60px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: 80px var(--spacing) var(--spacing);
 }
 
 .navbar {
@@ -11,20 +27,23 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background: #2e7d32;
+    background: var(--color-primary);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: var(--spacing);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    flex-wrap: wrap;
 }
 
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
+.nav-left,
+.nav-center,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
 }
 
 .navbar .brand {
@@ -32,24 +51,86 @@ body {
     font-size: 20px;
 }
 
+.nav-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background: var(--color-secondary);
+    color: #fff;
+}
+
+.navbar .nav-link {
+    color: #fff;
+}
+
+.navbar .nav-link:hover {
+    background: var(--color-secondary);
+    color: #fff;
+}
+
 .navbar .badge {
-    background: #ffeb3b;
-    color: #000;
+    background: var(--color-accent);
+    color: #fff;
     padding: 2px 6px;
     border-radius: 4px;
-    margin-right: 10px;
     font-size: 12px;
 }
 
-.navbar .welcome {
-    margin-right: 10px;
+.btn {
+    display: inline-block;
+    background: var(--color-secondary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: var(--color-accent);
+}
+
+.machine-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.machine-list li {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: var(--spacing);
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.machine-list img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.machine-details img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
 }
 
 .form-container {
     max-width: 400px;
-    margin: 80px auto;
+    margin: 2rem auto;
     background: #fff;
-    padding: 20px;
+    padding: var(--spacing);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -68,46 +149,6 @@ body {
 .form-container textarea {
     padding: 8px;
     margin-top: 5px;
-}
-
-.btn {
-    display: inline-block;
-    background: #2e7d32;
-    color: #fff;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.machine-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.machine-list li {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 10px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.machine-list img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
-.machine-details img {
-    width: 300px;
-    height: 200px;
-    object-fit: cover;
 }
 
 .reservation-container {
@@ -131,5 +172,19 @@ body {
 }
 
 .calendar .reserved {
-    background: #ffcdd2;
+    background: #ffe0d3;
+}
+
+@media (max-width: 600px) {
+
+    .nav-center,
+    .nav-right {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: var(--spacing);
+    }
+
+    .navbar {
+        align-items: flex-start;
+    }
 }
