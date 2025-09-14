@@ -9,5 +9,6 @@ block content
             input(type='text' name='name' id='name', required, value=machine.name)
             label(for='description') Opis
             textarea(name='description' id='description')= machine.description
-            button.btn(type='submit') Zapisz
-        a.btn(href='/machines') Wróć do listy maszyn
+            .button-group
+                button.btn(type='submit') Zapisz
+                a.btn(href='/machines') Wróć do listy maszyn
