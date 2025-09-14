@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+    h1 Zarządzanie użytkownikami
+    ul.user-list
+        each user in users
+            li.user-card
+                label Email
+                input(type='text', value=user.email, readonly)
+                label Nazwa
+                input(type='text', value=user.username, readonly)
+                label Rola
+                input(type='text', value=user.role, readonly)
+                .user-actions
+                    form(action=`/users/${user.id}`, method='post')
+                        input(type='hidden' name='_method' value='PUT')
+                        input(type='text' name='newUsername' placeholder='Nowa nazwa')
+                        input(type='password' name='newPassword' placeholder='Nowe hasło')
+                        button.btn.btn-save(type='submit') Zapisz
+                    form(action=`/users/${user.id}`, method='post')
+                        input(type='hidden' name='_method' value='DELETE')
+                        button.btn.btn-delete(type='submit') Usuń

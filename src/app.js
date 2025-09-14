@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.js';
 import machinesRouter from './routes/machines.js';
 import reservationsRouter from './routes/reservations.js';
+import usersRouter from './routes/users.js';
 import { ensureAuthenticated } from './middlewares/auth.js';
 import seedDatabase from './db/seed.js';
 import fs from 'fs';
@@ -56,6 +57,7 @@ app.set('views', join(__dirname, 'views'));
 
 app.use('/machines', machinesRouter);
 app.use('/reservations', reservationsRouter);
+app.use('/users', usersRouter);
 app.get('/', (req, res) => {
     res.render('index', { title: 'Wypożyczalnia: Strona główna' });
 });

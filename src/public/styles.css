@@ -73,6 +73,10 @@ body {
     color: #fff;
 }
 
+.navbar .nav-link.admin-link {
+    background: var(--color-accent);
+}
+
 .navbar .badge {
     background: var(--color-accent);
     color: #fff;
@@ -95,6 +99,14 @@ body {
 
 .btn:hover {
     background: var(--color-accent);
+}
+
+.btn-save:hover {
+    background: #2ecc71;
+}
+
+.btn-delete:hover {
+    background: #e74c3c;
 }
 
 h1,
@@ -254,6 +266,43 @@ p {
 
 .calendar .reserved {
     background: #ffe0d3;
+}
+
+.user-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing);
+    margin-top: var(--spacing);
+}
+
+.user-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: var(--spacing);
+    width: 250px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+}
+
+.user-card input[readonly] {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+}
+
+.user-actions {
+    display: flex;
+    gap: calc(var(--spacing) / 2);
+}
+
+.user-actions form {
+    display: flex;
+    gap: calc(var(--spacing) / 2);
+    align-items: center;
 }
 
 @media (max-width: 600px) {

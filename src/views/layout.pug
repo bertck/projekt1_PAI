@@ -13,6 +13,8 @@ html
                     a.nav-link(href='/') Strona główna
                     a.nav-link(href='/machines') Maszyny
                     a.nav-link(href='/reservations') Rezerwacje
+                    if currentUser.role === 'admin'
+                        a.nav-link.admin-link(href='/users') Użytkownicy
                 .nav-right
                     if currentUser.role === 'admin'
                         span.badge Admin
