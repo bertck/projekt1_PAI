@@ -40,9 +40,18 @@ r.post('/register', async (req, res) => {
         return res.status(400).render('error', { status: 400, message: INVALID_DATA_MSG });
     }
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, username, passwordHash, role: 'user' });
-    req.session.userId = user.id;
-    res.redirect('/');
+    try {
+        const user = await User.create({ email, username, passwordHash, role: 'user' });
+        req.session.userId = user.id;
+        res.redirect('/');
+    } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            return res.render('register', {
+                title: 'Wypożyczalnia: Zarejestruj się'
+            });
+        }
+        throw err;
+    }
 });
 
 export default r;
