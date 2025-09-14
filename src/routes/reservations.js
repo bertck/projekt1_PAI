@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Reservation, { Op } from '../models/Reservation.js';
 import Machine from '../models/Machine.js';
+import User from '../models/User.js';
 
 const r = Router();
 
@@ -14,7 +15,7 @@ r.get('/', async (req, res, next) => {
             machine = await Machine.findByPk(req.query.machineId);
             if (!machine) return res.status(404).send("Nie znaleziono zasobu!");
         }
-        const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
+        const reservations = await Reservation.findAll({ where, include: [Machine, User], order: [['startDate', 'ASC']] });
         res.render('reservations/index', { reservations, machine, title: 'Lista rezerwacji' });
     } catch (error) {
         next(error);
@@ -27,7 +28,7 @@ r.get('/new', async (req, res, next) => {
         const machines = await Machine.findAll();
         const where = {};
         if (req.query.machineId) where.machineId = req.query.machineId;
-        const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
+        const reservations = await Reservation.findAll({ where, include: [Machine, User], order: [['startDate', 'ASC']] });
         res.render('reservations/new', { machines, selectedMachineId: req.query.machineId, reservations, title: 'Nowa rezerwacja' });
     } catch (error) {
         next(error);

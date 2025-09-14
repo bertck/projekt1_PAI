@@ -265,6 +265,28 @@ p {
     padding: calc(var(--spacing) / 2);
 }
 
+.reservation-list li a {
+    display: flex;
+    align-items: center;
+}
+
+.reservation-list li a span {
+    padding: 0 var(--spacing);
+}
+
+.reservation-list li a span:not(:last-child) {
+    margin-right: var(--spacing);
+    border-right: 1px solid #ccc;
+}
+
+.reservation-list li .username {
+    font-weight: bold;
+}
+
+.reservation-list li .days {
+    color: var(--color-secondary);
+}
+
 .calendar table {
     width: 100%;
     border-collapse: collapse;

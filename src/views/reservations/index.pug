@@ -20,7 +20,13 @@ block content
                 ul.reservation-list
                     each res in list
                         li
-                            a.nav-link(href=`/reservations/${res.id}`)= `${res.startDate} - ${res.endDate}`
+                            - const start = new Date(res.startDate)
+                            - const end = new Date(res.endDate)
+                            - const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1
+                            a.nav-link(href=`/reservations/${res.id}`)
+                                span.username= res.User ? res.User.username : 'brak użytkownika'
+                                span.days= `${days} dni`
+                                span.dates= `${res.startDate} - ${res.endDate}`
     script.
         const reservations = !{JSON.stringify(reservations)};
         const calendar = document.getElementById('calendar');
