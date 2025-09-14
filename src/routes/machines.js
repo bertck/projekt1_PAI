@@ -73,6 +73,7 @@ r.delete('/:id', ensureAdmin, async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
         if (!machine) return next({ status: 404, message: 'Nie znaleziono zasobu!' });
+        await machine.destroy();
         res.redirect('/machines');
     } catch (error) {
         next(error);
