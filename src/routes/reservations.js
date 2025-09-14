@@ -15,7 +15,7 @@ r.get('/', async (req, res, next) => {
             if (!machine) return res.status(404).send("Nie znaleziono zasobu!");
         }
         const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
-        res.render('reservations/index', { reservations, machine });
+        res.render('reservations/index', { reservations, machine, title: 'Lista rezerwacji' });
     } catch (error) {
         next(error);
     }
@@ -28,7 +28,7 @@ r.get('/new', async (req, res, next) => {
         const where = {};
         if (req.query.machineId) where.machineId = req.query.machineId;
         const reservations = await Reservation.findAll({ where, include: Machine, order: [['startDate', 'ASC']] });
-        res.render('reservations/new', { machines, selectedMachineId: req.query.machineId, reservations });
+        res.render('reservations/new', { machines, selectedMachineId: req.query.machineId, reservations, title: 'Nowa rezerwacja' });
     } catch (error) {
         next(error);
     }
@@ -39,7 +39,7 @@ r.get('/:id', async (req, res, next) => {
     try {
         const reservation = await Reservation.findByPk(req.params.id, { include: Machine });
         if (!reservation) return res.status(404).send("Nie znaleziono zasobu!");
-        res.render('reservations/show', { reservation });
+        res.render('reservations/show', { reservation, title: 'Szczegóły rezerwacji' });
     } catch (error) {
         next(error);
     }
@@ -55,7 +55,7 @@ r.get('/:id/edit', async (req, res, next) => {
             return res.status(403).send("Odmówiono dostępu!");
         }
         const machines = await Machine.findAll();
-        res.render('reservations/edit', { reservation, machines });
+        res.render('reservations/edit', { reservation, machines, title: 'Edytuj rezerwację' });
     } catch (error) {
         next(error);
     }

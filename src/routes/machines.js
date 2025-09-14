@@ -7,12 +7,12 @@ const r = Router();
 // GET a list of all machines
 r.get('/', async (req, res) => {
     const machines = await Machine.findAll();
-    res.render('machines/index', { machines });
+    res.render('machines/index', { machines, title: 'Lista maszyn' });
 });
 
 // GET an 'add a new machine' page
 r.get('/new', ensureAdmin, (req, res) => {
-    res.render('machines/new');
+    res.render('machines/new', { title: 'Dodaj maszynę' });
 });
 
 // GET data of one particular machine
@@ -20,7 +20,7 @@ r.get('/:id', async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
         if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
-        res.render('machines/show', { machine });
+        res.render('machines/show', { machine, title: machine.name });
     } catch (error) {
         next(error);
     }    
@@ -31,7 +31,7 @@ r.get('/:id/edit', ensureAdmin, async (req, res, next) => {
     try {
         const machine = await Machine.findByPk(req.params.id);
         if (!machine) return res.status(404).send('Nie znaleziono zasobu!');
-        res.render('machines/edit', { machine })
+        res.render('machines/edit', { machine, title: 'Edytuj maszynę' });
     } catch (error) {
         next(error);
     }

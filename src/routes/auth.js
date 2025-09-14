@@ -13,7 +13,7 @@ r.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
-        return res.render('login', { error: 'Nieprawidłowa nazwa użytkownika lub hasło' });
+        return res.render('login', { error: 'Nieprawidłowa nazwa użytkownika lub hasło', title: 'Wypożyczalnia: Zaloguj się' });
     }
 
     req.session.userId = user.id;
