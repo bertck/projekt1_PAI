@@ -23,9 +23,9 @@ block content
         const month = now.getMonth();
         const first = new Date(year, month, 1);
         const last = new Date(year, month + 1, 0);
-        const startDay = first.getDay();
+        const startDay = (first.getDay() + 6) % 7;
         let html = '<table><tr>';
-        const days = ['Nd','Pn','Wt','Śr','Cz','Pt','So'];
+        const days = ['Pn','Wt','Śr','Cz','Pt','So','Nd'];
         for (const d of days) html += `<th>${d}</th>`;
         html += '</tr><tr>';
         for (let i=0;i<startDay;i++) html += '<td></td>';
